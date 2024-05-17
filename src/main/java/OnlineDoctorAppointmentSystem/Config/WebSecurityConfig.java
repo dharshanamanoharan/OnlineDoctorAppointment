@@ -38,29 +38,28 @@ public class WebSecurityConfig {
             "/docplus.in/auth/changePassword",
             "/docplus.in/auth/login",
             //User
-            "/docplus.in/users-list",
+           /* "/docplus.in/users-list",
             "/docplus.in/add-user",
             "/docplus.in/user",
             "/docplus.in/user/**",
             "/docplus.in/reg-users-count",
-            "/docplus.in/activated-users-count",
+            "/docplus.in/activated-users-count",*/
             //Doctor
             "/docplus.in/doctors-list",
-            "/docplus.in/add-doctor",
-            "/docplus.in/doc-login",
+           //"/docplus.in/add-doctor",
             "/docplus.in/doctor/**",
             //Appointment
             "/docplus.in/book-appointment",
-            "/docplus.in/all-appointments",
+            //"/docplus.in/all-appointments",
             "/docplus.in/appointment/**",
 
             //Payment
-            "docplus.in/payment/*",
+            //"docplus.in/payment/*",
             //Booking
-            "/docplus.in/check-availability",
+            //"/docplus.in/check-availability",
             //Messaging
-            "docplus.in/storeMessage",
-            "docplus.in/retrieveMessage"
+            "docplus.in/storeMessage"
+           // "docplus.in/retrieveMessage"
             };
     @Bean
     public PasswordEncoder passwordEncoder()
@@ -77,11 +76,11 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeHttpRequests((authorize)->{
                 authorize.requestMatchers(whiteListUrls).permitAll();
-                authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+               // authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                 authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
 
-        http.exceptionHandling( exception -> exception
+       http.exceptionHandling( exception -> exception
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
