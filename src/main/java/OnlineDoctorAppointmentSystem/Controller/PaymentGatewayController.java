@@ -35,7 +35,6 @@ public class PaymentGatewayController {
         orderRequest.put("receipt", "order_rcptid_11");
         Order order = razorpayClient.orders.create(orderRequest);
         String orderId = order.get("id");
-
         return orderId;
     }
 
