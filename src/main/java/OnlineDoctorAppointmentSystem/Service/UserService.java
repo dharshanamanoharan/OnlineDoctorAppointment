@@ -7,6 +7,7 @@ import OnlineDoctorAppointmentSystem.Model.SendEmailModel;
 import OnlineDoctorAppointmentSystem.Model.UserModel;
 import OnlineDoctorAppointmentSystem.Security.JwtAuthResponse;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;

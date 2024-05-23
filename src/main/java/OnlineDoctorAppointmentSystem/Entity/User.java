@@ -3,6 +3,7 @@ package OnlineDoctorAppointmentSystem.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -29,7 +30,10 @@ public class User {
     @Column
     String role="ROLE_USER";
     @Column
-    String user_avatar="../user-avatar.png";
+    String user_avatar;
+    @Lob
+    @Column(columnDefinition = "longblob")
+    private byte[] displayPicture;
 
     /*@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "users_roles",

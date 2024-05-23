@@ -23,7 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -77,6 +79,7 @@ public class UserServiceImpl implements UserService{
         //Set<Role> roles=new HashSet<>();
         Set<String> roles=new HashSet<>();
         //Role userRole=roleRepository.findByName("ROLE_USER");
+        //user.setDisplayPicture();
         roles.add("ROLE_USER");
         user.setRoles(roles);
         userRepository.save(user);
@@ -262,7 +265,12 @@ public class UserServiceImpl implements UserService{
             user.setEmail(userModel.getEmail());
         }
         if(userModel.getUser_avatar()!=null) {
-            user.setUser_avatar(userModel.getUser_avatar());
+           user.setUser_avatar(userModel.getUser_avatar());
+          /*  try {
+                user.setDisplayPicture(file.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }*/
         }
         if(userModel.getPassword()!=null&&userModel.getPassword().trim().replaceAll("\\s", "")!="") {
             user.setPassword(passwordEncoder.encode(userModel.getPassword()));

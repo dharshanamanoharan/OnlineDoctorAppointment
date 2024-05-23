@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @CrossOrigin("*")
@@ -43,7 +44,7 @@ public class UserController {
 
         //Updating particular User by Id
         @PutMapping("/user/{id}")
-        public ResponseEntity<String> updateUserById(@PathVariable("id") Long userId,@RequestBody UserModel userModel) {
+        public ResponseEntity<String> updateUserById(@PathVariable("id") Long userId, @RequestBody UserModel userModel) {
            User user = userService.updateUserById(userId,userModel);
             if (user != null)
                 return new ResponseEntity<>("Updated Successfully", HttpStatus.OK);
