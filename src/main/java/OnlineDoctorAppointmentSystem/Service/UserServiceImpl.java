@@ -244,49 +244,41 @@ public class UserServiceImpl implements UserService{
         user1.setEmail(user.getEmail());
         user1.setUserName(user.getUserName());
         user1.setUser_avatar(user.getUser_avatar());
+        user1.setDisplayPicture(user.getDisplayPicture());
+        user1.setRoles(user.getRoles());
+        user1.setRole(user.getRole());
         return user1;
     }
 
     @Override
-    public User updateUserById(Long userId, UserModel userModel) {
+    public User updateUserById(Long userId, Optional<MultipartFile> file, String firstName, String lastName, String userName, String email, String password, String role, Set<String> roles) {
         User user=userRepository.findById(userId).orElseThrow
                 (()->new NoResourceException("User not Found"+userId, HttpStatus.NOT_FOUND));
-        if(userModel.getFirstName()!=null)
-        {
-            user.setFirstName(userModel.getFirstName());
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUserName(userName);
+            user.setEmail(email);
+            if(!file.isEmpty()) {
+                try {
+                    user.setDisplayPicture(file.get().getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        if(password!=null && password.trim().replaceAll("\\s", "")!="") {
+            user.setPassword(passwordEncoder.encode(password));
         }
-        if(userModel.getLastName()!=null) {
-            user.setLastName(userModel.getLastName());
-        }
-        if(userModel.getUserName()!=null) {
-            user.setUserName((userModel.getUserName()));
-        }
-        if(userModel.getEmail()!=null) {
-            user.setEmail(userModel.getEmail());
-        }
-        if(userModel.getUser_avatar()!=null) {
-           user.setUser_avatar(userModel.getUser_avatar());
-          /*  try {
-                user.setDisplayPicture(file.getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }*/
-        }
-        if(userModel.getPassword()!=null&&userModel.getPassword().trim().replaceAll("\\s", "")!="") {
-            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        }
-        if(!userModel.getRoles().isEmpty())
+        if(!roles.isEmpty())
         {
             //Set<String> roles=new HashSet<>();
             //Role userRole=roleRepository.findByName("ROLE_USER");
             //roles.add("ROLE_USER");
             //Role otherRole=roleRepository.findByName(userModel.getRole());
            // Set<String> otherRole=new HashSet<>();
-
             //if(otherRole!=null){roles.add(otherRole);}
-            user.setRoles(userModel.getRoles());
-            user.setRole(userModel.getRoles().toString());
-            log.info(userModel.getRoles().toString());
+            user.setRoles(roles);
+            user.setRole(roles.toString());
+            //log.info(userModel.getRoles().toString());
         }
         userRepository.save(user);
         return user;

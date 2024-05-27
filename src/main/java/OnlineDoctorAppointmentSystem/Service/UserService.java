@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserService {
      User registerUser(UserModel userModel);
@@ -32,7 +33,7 @@ public interface UserService {
 
     UserModel getUser(Long userId);
 
-    User updateUserById(Long userId, UserModel userModel);
+    User updateUserById(Long userId, Optional<MultipartFile> file, String firstName, String lastName, String userName, String email, String password, String role, Set<String> roles);
 
     String deleteUser(Long userId);
 

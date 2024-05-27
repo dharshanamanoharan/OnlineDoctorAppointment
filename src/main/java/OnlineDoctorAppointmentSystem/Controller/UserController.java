@@ -10,7 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
@@ -44,8 +48,21 @@ public class UserController {
 
         //Updating particular User by Id
         @PutMapping("/user/{id}")
-        public ResponseEntity<String> updateUserById(@PathVariable("id") Long userId, @RequestBody UserModel userModel) {
-           User user = userService.updateUserById(userId,userModel);
+        public ResponseEntity<String> updateUserById(@PathVariable("id") Long userId,
+                                                     @RequestParam("file") Optional<MultipartFile> file,
+                                                     @RequestPart("firstName") String firstName,
+                                                     @RequestPart("lastName") String lastName,
+                                                     @RequestPart("userName") String userName,
+                                                     @RequestPart("email") String email
+                                                     //@RequestPart("password") String password,
+                                                     //@RequestPart("role") String role,
+                                                     //@RequestPart("roles") Set<String> roles
+        ) {
+            String password="";
+            String role="";
+            Set<String> roles = Collections.singleton("ROLE_USER");
+            //roles.add("");
+            User user = userService.updateUserById(userId,file,firstName,lastName,userName,email,password,role,roles);
             if (user != null)
                 return new ResponseEntity<>("Updated Successfully", HttpStatus.OK);
             else
